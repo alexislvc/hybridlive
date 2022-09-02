@@ -349,9 +349,7 @@ int main()
     float in_message[FRAMES_PER_BUFFER]; /* Buffer where the message to sent will be written */
 
     /* Create and process the buffer_init that indicate the start of the transmission */
-    float buffer_init[5]; for (int i = 0; i < 2; i++) buffer_init[i] = 1.0f; 
-    buffer_init[2] = 1.0f;
-    buffer_init[3] = 1.0f; 
+    float buffer_init[5]; for (int i = 0; i < 4; i++) buffer_init[i] = 1.0f; 
     buffer_init[4] = 2.0f;
 
     /* --- PORTAUDIO PARAMTERS --- */
