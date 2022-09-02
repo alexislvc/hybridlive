@@ -281,6 +281,11 @@ int main()
         } 
         else if ((recv_one >= 3) && (!(1.995 < buffer_init[0] && buffer_init[0] < 2.005)))
         {
+            /* In this case we considered that we have received enough "one"
+              * but not received the required "two" to begin the transmission properly 
+              * We can read the first point of the transmitted signal so the transmission
+              * must be aborted.
+              */
             printf ("Unable to start the reception properly.\n");
             printf ("The \"two\" have not been received.\n");
             printf ("A packet will be lost.\n\n");
