@@ -8,7 +8,7 @@
 #define SAMPLE_RATE     (48000)    /* Hertz */
 #define FRAMES_PER_BUFFER   (800)  /* Number of points acquired during the time window */
 #define SL  (400)  /* Number of spectral lines in the fft --> number of usable frequencies (SL = FRAMES_PER_BUFFER/2) */ 
-#define THRESHOLD_VALUE (4.50) /* Threshold value for the synchronisation scheme 
+#define THRESHOLD_VALUE (450) /* Threshold value for the synchronisation scheme 
                                * The value has been chosen in such way that it's impossible to 
                                * obtain this value in a normal transmission */
 #define NUMBER_OF_TRANSMITTED_POINT (16) /* Number of 3D points transmited in the 48kHz configuration */
