@@ -5,15 +5,15 @@
 
 #define _USE_MATH_DEFINES
 
-#define SAMPLE_RATE     (48000)    /* Hertz */
-#define FRAMES_PER_BUFFER   (800)  /* Number of points acquired during the time window */
-#define SL  (400)  /* Number of spectral lines in the fft --> number of usable frequencies (SL = FRAMES_PER_BUFFER/2) */ 
+#define SAMPLE_RATE     (96000)    /* Hertz */
+#define FRAMES_PER_BUFFER   (1600)  /* Number of points acquired during the time window */
+#define SL  (800)  /* Number of spectral lines in the fft --> number of usable frequencies (SL = FRAMES_PER_BUFFER/2) */ 
 #define THRESHOLD_VALUE (4.50) /* Threshold value for the synchronisation scheme 
                                * The value has been chosen in such way that it's impossible to 
                                * obtain this value in a normal transmission */
-#define NUMBER_OF_TRANSMITTED_POINT (16) /* Number of 3D points transmited in the 48kHz configuration */
+#define NUMBER_OF_TRANSMITTED_POINT (33) /* Number of 3D points transmited in the 96kHz configuration */
 #define LENGTH_OF_FRAME (28) /* Frame length added at the beginning of the payload for transmission */
-#define LENGTH_OF_PAYLOAD (1536) /* Length in terms of bits for the payloads (32 bits for 33 points in 3d) */
+#define LENGTH_OF_PAYLOAD (3168) /* Length in terms of bits for the payloads (32 bits for 33 points in 3d) */
 
 #define PA_SAMPLE_TYPE  (paFloat32) /* In our application, we use the highest Portaudio resolution available */
 
@@ -218,7 +218,7 @@ int *decimal_to_binary_4bits(int value)
 
 int *back_to_binary(int encoded_message[])
 {   /* Takes a phase message (from the fft phase analysis) and returns the original binary message */
-    static int res[LENGTH_OF_FRAME + LENGTH_OF_PAYLOAD + 32]; /* The "+32" is for the currently unused room */
+    static int res[LENGTH_OF_FRAME + LENGTH_OF_PAYLOAD];
     for (int indMes = 0; indMes < SL - 1; indMes++)
     {
         int indRes = indMes * 4;

@@ -9,15 +9,15 @@
 
 #define _USE_MATH_DEFINES
 
-#define SAMPLE_RATE     (48000)   /* Hertz */
+#define SAMPLE_RATE     (96000)   /* Hertz */
 #define MAXIMUM_FRAME_RATE  (60)   /* Maximum number of frames per second of the programme */
-#define FRAMES_PER_BUFFER  (800)  /* Number of points acquired during the time window (FRAMES_PER_BUFFER = SAMPLE_RATE / MAXIMUM_FRAME_RATE) */
-#define SL  (400)  /* Number of spectral lines in the fft --> number of usable frequencies (SL = FRAMES_PER_BUFFER/2) */ 
+#define FRAMES_PER_BUFFER  (1600)  /* Number of points acquired during the time window (FRAMES_PER_BUFFER = SAMPLE_RATE / MAXIMUM_FRAME_RATE) */
+#define SL  (800)  /* Number of spectral lines in the fft --> number of usable frequencies (SL = FRAMES_PER_BUFFER/2) */ 
 #define THRESHOLD_VALUE (450) /* Threshold value for the synchronisation scheme 
                                * The value has been chosen in such way that it's impossible to 
                                * obtain this value in a normal transmission */
 #define LENGTH_OF_FRAME (28) /* Frame length added at the beginning of the payload for transmission */
-#define LENGTH_OF_PAYLOAD (1536) /* Length in terms of bits for the payloads (32 bits for 33 points in 3d) */
+#define LENGTH_OF_PAYLOAD (3168) /* Length in terms of bits for the payloads (32 bits for 33 points in 3d) */
 
 #define PA_SAMPLE_TYPE  (paFloat32) /* In our application, we use the highest Portaudio resolution available */
 
@@ -186,14 +186,14 @@ int *decimal_to_binary(unsigned short value)
 
 int *generate_random_message()
 {   /* Generates a message that could be created from mediapipe */
-    /* 3 dimensions of 16 points coded in float (32 BITS) put one after the other */
+    /* 3 dimensions of 33 points coded in float (32 BITS) put one after the other */
     static int res[LENGTH_OF_PAYLOAD];
     myfloat var;
     int index_final; /* Index of the float of interest in the results array */
     int index_point; /* Index of the 3D point of interest in the results array */
     int index_coordinate; /* Index of the coordinate of interest in the 3D point of interest */
 
-    for (int point = 0; point < 16; point++)
+    for (int point = 0; point < 33; point++)
     {
         index_point = point * 32 * 3; /* At each new 3D point, we move the index by 32 bits 
                                        * for 3 floating point coordinates */
@@ -217,16 +217,15 @@ int *message_formatting(int message[])
 {   /* Returns an array formatted according to the protocol and ready to be transmitted */
     /*      0 - 15 BITS : Frame number */
     /*     16 - 27 BITS : Checksum */
-    /*   28 - 1563 BITS : message (Payload) */
-    /* 1564 - 1596 BITS : Unused room (32 bits unused) */
+    /*   28 - 3196 BITS : message (Payload) */
     /* In this configuration, the length of the frame added to the message is 28.
      * If this length is to be changed in the future, the global parameter 
-     * LENGTH_OF_FRAME must also be changed in the receiver program. */
+     * LENGTH_OF_FRAME must also be changed */
 
     #if !defined(frameNum)
         static unsigned short frameNum = 0;
     #endif
-    static int res[LENGTH_OF_FRAME + LENGTH_OF_PAYLOAD + 32]; /* The final binary message that will be sent */
+    static int res[LENGTH_OF_FRAME + LENGTH_OF_PAYLOAD]; /* The final binary message that will be sent */
     int index;
     
     frameNum = frameNum % USHRT_MAX;  /* Here we don't want to exceed the limit of unsigned short */
@@ -260,7 +259,7 @@ int main()
     float in_message[FRAMES_PER_BUFFER]; /* Buffer where the message to sent will be written */
 
     /* Creates and processes the buffer_init which indicates the start of the transmission */
-    float buffer_init[5]; for (int i = 0; i < 5; i++) buffer_init[i] = THRESHOLD_VALUE;
+    float buffer_init[5]; for (int i = 0; i < 5; i++) buffer_init[i] = THRESHOLD_VALUE; 
 
     /* --- PORTAUDIO PARAMETERS --- */
     PaStreamParameters outputParameters;
