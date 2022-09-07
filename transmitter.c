@@ -17,7 +17,7 @@
                                * The value has been chosen in such way that it's impossible to 
                                * obtain this value in a normal transmission */
 #define LENGTH_OF_FRAME (28) /* Frame length added at the beginning of the payload for transmission */
-#define LENGTH_OF_PAYLOAD (1536) /* Length in terms of bits for the payloads (32 bits for 33 points in 3d) */
+#define LENGTH_OF_PAYLOAD (1536) /* Length in terms of bits for the payloads (32 bits for 16 points in 3d) */
 
 #define PA_SAMPLE_TYPE  (paFloat32) /* In our application, we use the highest Portaudio resolution available */
 
